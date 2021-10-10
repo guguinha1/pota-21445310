@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.File;
+import java.io.IOException;
 
 /* Gabriel Silva Costa (RA 21464678)
    Gustavo Alves Dias (RA 21445310)
@@ -11,16 +13,25 @@ public class App {
         ArrayList<Cliente> lista = new ArrayList<>();
         Scanner entrada = new Scanner(System.in);
 
-        lista.add(new Cliente("Alessandra", "Feminino", "São Paulo", "ale@gmail.com", "21", "(11) 4422-5594"));
-        lista.add(new Cliente("Bianca", "Feminino", "Minas Gerais", "bia@gmail.com", "18", "(31) 5892-3394"));
-        lista.add(new Cliente("Gabriel", "Masculino", "Santana de Parnaiba", "bielzinho@gmail.com", "19", "(11) 94452-8533"));
-        lista.add(new Cliente("Gustavo", "Masculino", "São Paulo", "gustavinho@gmail.com", "21", "(11) 3353-9922"));
-        lista.add(new Cliente("Joao", "Masculino", "Bahia", "joaozinmatador@gmail.com", "30", "(71) 5594-7825"));
-        lista.add(new Cliente("Julia", "Feminino", "São Paulo", "julinhabebedeira@gmail.com", "19", "(11)5566-0922"));
-        lista.add(new Cliente("Leandro", "Masculino", "Santa Catarina", "leandrozindosroles@gmail.com", "25", "(47) 9543-1478"));
-        lista.add(new Cliente("Mauro", "Masculino", "Espírito Santo", "mauro2021@gmail.com", "40", "(27) 1043-1478"));
-        lista.add(new Cliente("Pedro", "Masculino", "São Paulo", "pedringames@gmail.com", "11", "(11) 4002-8922"));
-        lista.add(new Cliente("Ulices", "Masculino", "Goiás", "ulicestrader@gmail.com", "35", "(62) 4802-9934"));
+        try {
+            File file = new File("arquivoDados.csv");
+            Scanner scanner = new Scanner(file);
+
+            // enquanto não chegar ao final do arquivo
+            while (scanner.hasNextLine()) {
+                // leia a próxima linha do arquivo
+                String linha = scanner.nextLine();
+                // quebrando a linha por ","
+                String[] partes = linha.split(",");
+                lista.add(new Cliente((String) partes[0], (String) partes[1], (String) partes[2], (String) partes[3],
+                        (String) partes[4], (String) partes[5], (String) partes[6]));
+            }
+
+            scanner.close();
+
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
 
         while (!nome.equalsIgnoreCase("exit")) {
             System.out.print("Digite o nome procurado: ");
